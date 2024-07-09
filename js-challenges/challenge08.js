@@ -9,9 +9,7 @@ function pola(str) {
         let rePart1 = part1.replace('#', i)
         for (let j = 0; j < 10; j++) {
             let rePart2 = part2.replace('#', j)
-            if (eval(rePart1) == rePart2){
-                return [i, j]
-            }
+            if (eval(rePart1) == rePart2) return [i, j]
         }
     }
 }
