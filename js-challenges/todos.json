@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "completed": true,
+    "content": "saya akan memasak",
+    "tags": [
+      "masak",
+      "sayur"
+    ],
+    "date": "2024-07-17T10:49:53.869Z"
+  },
+  {
+    "id": 2,
+    "completed": false,
+    "content": "saya pergi ke sekolah",
+    "tags": [],
+    "date": "2024-07-17T10:50:53.191Z"
+  }
+]
