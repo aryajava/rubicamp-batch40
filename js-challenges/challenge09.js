@@ -44,12 +44,12 @@ function spiral(param1) {
         left++;
     }
 
-    return result
+    return console.log(result);
 }
 
-console.log(spiral(5))
-console.log(spiral(6))
-console.log(spiral(7))
+spiral(5)
+spiral(6)
+spiral(7)
 
 
 
