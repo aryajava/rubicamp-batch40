@@ -1,8 +1,3 @@
-// Buat sebuah function yang menerima String.
-// String tersebut merupakan suatu pola perhitungan dari beberapa bilangan namun bilangan nya itu sendiri tidak lengkap
-// dan tugas mu adalah menebak 1 angka yang seharusnya
-// Sehingga apabila bilangan tersebut telah lengkap, maka akan membentuk suatu pola perhitungan yang benar
-
 function pola(str) {
     let [part1, part2] = str.split('=')
     for (let i = 0; i < 10; i++) {
