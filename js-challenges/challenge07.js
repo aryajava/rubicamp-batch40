@@ -1,4 +1,3 @@
-// Buatlah fungsi yang mengalikan anggota dalam angka tersebut hingga nilai terakhir hanya terdiri dari 1 digit.
 function weirdMultiply(number) {
     if (number < 10) return number
     let digits = number.toString().split('')
