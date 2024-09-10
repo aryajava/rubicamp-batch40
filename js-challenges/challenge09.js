@@ -22,22 +22,22 @@ function spiral(param1) {
         for (let i = left; i <= right && result.length < matrixSize; i++) {
             result.push(matrix[top][i])
         }
-        top++;
 
         // Kanan (atas ke bawah)
+        top++;
         for (let i = top; i <= bottom && result.length < matrixSize; i++) {
             result.push(matrix[i][right])
         }
-        right--;
-
+        
         // Bawah (kanan ke kiri)
+        right--;
         for (let i = right; i >= left && result.length < matrixSize; i--) {
             result.push(matrix[bottom][i])
             
         }
-        bottom--;
-
+        
         // Kiri (bawah ke atas)
+        bottom--;
         for (let i = bottom; i >= top && result.length < matrixSize; i--) {
             result.push(matrix[i][left])
         }
