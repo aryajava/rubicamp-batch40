@@ -18,7 +18,7 @@ function spiral(param1) {
     let bottom = matrix.length-1;
     const result = [];
     while (result.length < matrixSize){
-        // Atas (kanan ke kiri)
+        // Atas (kiri ke kanan)
         for (let i = left; i <= right && result.length < matrixSize; i++) {
             result.push(matrix[top][i])
         }
