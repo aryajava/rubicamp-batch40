@@ -1,22 +1,25 @@
-/*
-Implementasikan penggunaan readline pada fungsi yang telah dibuat di challenge #6
-*/
-
-import { sentencesManipulation } from "./challenge06.js"
 import readline from "readline"
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
-    }   
-)
+});
 
-const askQuestion = () =>{
-    rl.question("Tulis kalimatmu disini: ", (sentence)=>{
-        sentence.includes("bye") || sentence.includes("Bye")? rl.close() : (console.log("Hasil konversi: ", sentencesManipulation(sentence)), askQuestion())
-    })
+const sentencesManipulation = (sentence) => {
+    const vowel_letters = ['a', 'i', 'u', 'e', 'o'];
+    const words = sentence.split(' ');
+    const proc_words = words.map(word => {
+        return vowel_letters.includes(word[0].toLowerCase()) ? word : word.slice(1) + word[0] + 'nyo';
+    });
+    return proc_words.join(' ');
+}
+
+const askQuestion = () => {
+    rl.question("Tulis kalimatmu disini: ", (sentence) => {
+        const result = sentencesManipulation(sentence);
+        console.log(`Hasil konversi: ${result}`);
+        result.includes("nyo") ? askQuestion() : ((console.log('Good bye!')), rl.close());
+    });
 }
 
 askQuestion()
-
-
