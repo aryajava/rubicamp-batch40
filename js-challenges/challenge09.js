@@ -44,7 +44,7 @@ function spiral(param1) {
         left++;
     }
 
-    return console.log(result);
+    console.log(result);
 }
 
 spiral(5)
