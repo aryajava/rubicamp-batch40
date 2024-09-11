@@ -2,7 +2,7 @@ import readline from "readline"
 
 const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout.write(`Tulis kalimatmu disini > `)
 });
 
 const sentencesManipulation = (sentence) => {
@@ -15,12 +15,14 @@ const sentencesManipulation = (sentence) => {
 };
 
 const askQuestion = () => {
-    process.stdout.write('Tulis kalimatmu disini: ');
-    
     rl.on('line', (sentence) => {
-        const result = sentencesManipulation(sentence);
-        console.log(`Hasil konversi: ${result}`);
-        result.includes("nyo") ? process.stdout.write('Tulis kalimatmu disini: ') : ((console.log('Good bye!')), rl.close());
+        console.log(`Hasil konversi: ${sentencesManipulation(sentence)}`);
+        process.stdout.write(`Tulis kalimatmu disini > `);
+    });
+    process.on('SIGINT', () => {
+        process.stdout.write(`Good bye!`);
+        rl.close;
+        process.exit();
     });
 };
 
