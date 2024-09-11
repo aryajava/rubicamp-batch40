@@ -12,14 +12,16 @@ const sentencesManipulation = (sentence) => {
         return vowel_letters.includes(word[0].toLowerCase()) ? word : word.slice(1) + word[0] + 'nyo';
     });
     return proc_words.join(' ');
-}
+};
 
 const askQuestion = () => {
-    rl.question("Tulis kalimatmu disini: ", (sentence) => {
+    process.stdout.write('Tulis kalimatmu disini: ');
+    
+    rl.on('line', (sentence) => {
         const result = sentencesManipulation(sentence);
         console.log(`Hasil konversi: ${result}`);
-        result.includes("nyo") ? askQuestion() : ((console.log('Good bye!')), rl.close());
+        result.includes("nyo") ? process.stdout.write('Tulis kalimatmu disini: ') : ((console.log('Good bye!')), rl.close());
     });
-}
+};
 
 askQuestion()
