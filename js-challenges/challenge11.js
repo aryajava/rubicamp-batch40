@@ -1,32 +1,39 @@
-/*
-Buat permainan tebak kata, gunakan file data.json untuk menyimpan pertanyaan dan jawaban
-*/
-
 import readline from "readline"
 import fs from "fs"
 
-const data = JSON.parse(fs.readFileSync("./js-challenges/data.json", "utf-8"))
+const data = JSON.parse(fs.readFileSync("./data.json", "utf-8"))
+const lenData = data.length;
 
 const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
-    }   
-)
+    output: process.stdout.write(`Selamat datang di permainan Tebak Kata, silahkan isi dengan jawaban yang benar ya!\n`)
+    }
+);
 
-let score = 0, index = 0
+let cAnswer = 0, wAnswer = 0, index = 0;
 
-function askQuestion() {
-    if (index < data.length) {
-        rl.question(`Pertanyaan: ${data[index].definition}\nTebakan: `, answer => {
-            console.log(answer.toLowerCase() === data[index].term.toLowerCase() ? "Jawaban benar!\n" : "Maaf, jawaban Anda belum tepat\n")
-            score += answer.toLowerCase() === data[index].term.toLowerCase() ? 1 : 0
-            index++
-            askQuestion()
-        });
+const tebakKata = () => {
+    if (index < lenData) {
+        console.log(`\nPertanyaan: ${data[index].definition}`);
+        process.stdout.write(`Tebakan: `);
     } else {
-        console.log(score >= 2 ? "Selamat Anda menang!\n" : "Coba lagi\n")
-        rl.close()
+        console.log(cAnswer > wAnswer ? `\nHore Anda Menang!\n` : `\nAnda kurang beruntung!\n`);
+        rl.close();
     }    
-}
+};
 
-askQuestion()
+rl.on('line', (answer) => {
+    if (index < lenData) {
+        if (answer.toLowerCase() === data[index].term.toLowerCase()) {
+            console.log(`Selamat Anda Benar!`);
+            cAnswer++;
+            index++;
+        } else {
+            console.log(`${'wk'.repeat(4)}, Anda kurang beruntung!`);
+            wAnswer++;
+        }
+        tebakKata();
+    }
+});
+
+tebakKata();
