@@ -19,7 +19,7 @@ const tebakKata = () => {
     } else {
         console.log(`\nHore Anda Menang!\n`);
         rl.close();
-    }    
+    }
 };
 
 rl.on('line', (answer) => {
