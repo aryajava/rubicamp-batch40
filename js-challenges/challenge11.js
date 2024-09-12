@@ -10,14 +10,14 @@ const rl = readline.createInterface({
     }
 );
 
-let cAnswer = 0, wAnswer = 0, index = 0;
+let index = 0;
 
 const tebakKata = () => {
     if (index < lenData) {
         console.log(`\nPertanyaan: ${data[index].definition}`);
         process.stdout.write(`Tebakan: `);
     } else {
-        console.log(cAnswer > wAnswer ? `\nHore Anda Menang!\n` : `\nAnda kurang beruntung!\n`);
+        console.log(`\nHore Anda Menang!\n`);
         rl.close();
     }    
 };
@@ -26,11 +26,9 @@ rl.on('line', (answer) => {
     if (index < lenData) {
         if (answer.toLowerCase() === data[index].term.toLowerCase()) {
             console.log(`Selamat Anda Benar!`);
-            cAnswer++;
             index++;
         } else {
             console.log(`${'wk'.repeat(4)}, Anda kurang beruntung!`);
-            wAnswer++;
         }
         tebakKata();
     }
