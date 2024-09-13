@@ -1,9 +1,13 @@
+// function sum() {
+//     let val = 0
+//     for (let i of arguments) {
+//         val +=i
+//     }
+//     return console.log(val)
+// }
+
 function sum() {
-    let val = 0
-    for (let i of arguments) {
-        val +=i
-    }
-    return console.log(val)
+    return console.log(Object.values(arguments).reduce((total, item) => total + item));
 }
 
 sum(1,2,7) // 10
