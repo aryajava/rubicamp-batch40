@@ -4,7 +4,7 @@ function indexPrime(param1) {
     while (count < param1) {
         num++;
         let isPrime = true;
-        for (let i = 2; i * i <= num; i++) {
+        for (let i = 2; i <= Math.sqrt(num); i++) {
             if (num % i === 0) {
                 isPrime = false;
                 break;

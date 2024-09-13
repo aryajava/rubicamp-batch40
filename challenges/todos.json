@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "completed": true,
+    "content": "saya sedang belajar",
+    "tags": [
+      "belajar"
+    ]
+  },
+  {
+    "id": 2,
+    "completed": false,
+    "content": "belajar koding",
+    "tags": [
+      "belajar",
+      "nodejs",
+      "expressjs"
+    ]
+  },
+  {
+    "id": 3,
+    "completed": true,
+    "content": "main bola",
+    "tags": []
+  },
+  {
+    "id": 4,
+    "completed": false,
+    "content": "tidur siang",
+    "tags": []
+  }
+]
