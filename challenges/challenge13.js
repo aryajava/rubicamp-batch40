@@ -42,6 +42,10 @@ const listAllTodos = () => {
     });
 };
 
+const taskList = () => {
+
+};
+
 const addTask = (content) => {
     const todos = readTodos()
     const newTask = {
@@ -137,6 +141,9 @@ const todoApp = () => {
         case 'list':
             listAllTodos();
             break;
+        case 'task':
+
+            break;
         case 'list:outstanding':
             listTodos('outstanding', args[1]);
             break;
@@ -158,7 +165,7 @@ const todoApp = () => {
         case 'tag':
             tagTask(args[1], args.slice(2));
             break;
-        case 'filter':
+        case 'filter:':
             filterByTag(args[1]);
             break;
         default:
