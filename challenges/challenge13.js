@@ -53,7 +53,7 @@ const taskList = (id) => {
     const task = todos.find(todo => todo.id === parseInt(id));
 
     if (task) {
-        console.log(`\nBerikut adalah informasi dari task ${task.id}:`);
+        console.log(`Berikut adalah informasi dari task ${task.id}:`);
         console.log(`id: ${task.id}`);
         console.log(`completed: [${task.completed ? 'x' : ' '}]`);
         console.log(`content: ${task.content}`);
