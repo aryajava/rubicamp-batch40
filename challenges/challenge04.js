@@ -8,15 +8,15 @@ function indexPrime(param1) {
             if (num % i === 0) {
                 isPrime = false;
                 break;
-            }
-        }
+            };
+        };
         if (isPrime) {
             count++;
-        }
-    }
+        };
+    };
     return num;
-}  
+};  
 
-console.log(indexPrime(4)) // 7
-console.log(indexPrime(500)) // 3571
-console.log(indexPrime(37786)) // 450881
+console.log(indexPrime(4)); // 7
+console.log(indexPrime(500)); // 3571
+console.log(indexPrime(37786)); // 450881
