@@ -59,7 +59,7 @@ const taskList = (id) => {
         console.log(`content: ${task.content}`);
         console.log(`tags: ${task.tags.length > 0 ? task.tags.join(', ') : '-'}`);
     } else {
-        console.log('Task tidak ditemukan.');
+        console.log(`Task ${id} tidak ditemukan.`);
     }
 };
 
@@ -74,7 +74,7 @@ const addTask = (content) => {
     };
     todos.push(newTask);
     writeTodos(todos);
-    console.log(`"${newTask.content}" berhasil ditambahkan.`);
+    console.log(`"${newTask.content}" berhasil ditambahkan dengan task ${newTask.id}.`);
 };
 
 // Fungsi untuk menghapus task
@@ -85,9 +85,9 @@ const deleteTask = (id) => {
         const [deletedTask] = todos.splice(todos.indexOf(task), 1);
         todos = todos.map((todo, index) => ({ ...todo, id: index + 1 }));
         writeTodos(todos);
-        console.log(`"${deletedTask.content}" telah dihapus dari daftar.`);
+        console.log(`Task ${id}: "${deletedTask.content}" telah dihapus dari daftar.`);
     } else {
-        console.log('Task tidak ditemukan.');
+        console.log(`Task ${id} tidak ditemukan.`);
     }
 };
 
@@ -98,9 +98,9 @@ const completeTask = (id) => {
     if (task) {
         task.completed = true;
         writeTodos(todos);
-        console.log(`"${task.content}" telah selesai.`);
+        console.log(`Task ${id}: "${task.content}" telah selesai.`);
     } else {
-        console.log('Task tidak ditemukan.');
+        console.log(`Task ${id} tidak ditemukan.`);
     }
 };
 
@@ -111,9 +111,9 @@ const uncompleteTask = (id) => {
     if (task) {
         task.completed = false;
         writeTodos(todos);
-        console.log(`"${task.content}" status selesai dibatalkan.`);
+        console.log(`Task ${id}: "${task.content}" status selesai dibatalkan.`);
     } else {
-        console.log('Task tidak ditemukan.');
+        console.log(`Task ${id} tidak ditemukan.`);
     }
 };
 
@@ -126,14 +126,13 @@ const tagTask = (id, tags) => {
         const newTags = tags.filter(tag => !existingTags.has(tag));
         task.tags.push(...newTags);
         writeTodos(todos);
-        
         if (newTags.length > 0) {
             console.log(`Tag "${newTags.join(', ')}" telah ditambahkan ke task ${task.id}: "${task.content}"`);
         } else {
-            console.log('Tidak ada tag baru yang ditambahkan.');
+            console.log(`Tidak ada tag baru yang ditambahkan pada task ${task.id}.`);
         }
     } else {
-        console.log('Task tidak ditemukan.');
+        console.log(`Task ${id} tidak ditemukan.`);
     }
 };
 
@@ -167,8 +166,7 @@ node todo.js uncomplete <task_id>
 node todo.js list:outstanding asc|desc
 node todo.js list:completed asc|desc
 node todo.js tag <task_id> <tag_name 1> <tag_name 2> ... <tag_name n>
-node todo.js filter:<tag_name>
-`);
+node todo.js filter:<tag_name>`);
     process.exit();
 };
 
