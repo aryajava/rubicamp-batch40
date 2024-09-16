@@ -209,6 +209,9 @@ const todoApp = () => {
         case args[0].startsWith('filter:'):
             filterByTags(args[0].slice(7));
             break;
+        case args[0] == 'help':
+            showHelp();
+            break;
         default:
             showHelp();
             break;
