@@ -122,21 +122,28 @@ const tagTask = (id, tags) => {
     const todos = readTodos();
     const task = todos.find(todo => todo.id === parseInt(id));
     if (task) {
-        const newTags = [...new Set([...task.tags, ...tags])];
-        task.tags = newTags;
+        const existingTags = new Set(task.tags);
+        const newTags = tags.filter(tag => !existingTags.has(tag));
+        task.tags.push(...newTags);
         writeTodos(todos);
-        console.log(`Tag "${tags.join(', ')}" telah ditambahkan ke task "${task.content}"`);
+        
+        if (newTags.length > 0) {
+            console.log(`Tag "${newTags.join(', ')}" telah ditambahkan ke task ${task.id}: "${task.content}"`);
+        } else {
+            console.log('Tidak ada tag baru yang ditambahkan.');
+        }
     } else {
         console.log('Task tidak ditemukan.');
     }
 };
+
 
 // Fungsi untuk filter berdasarkantag
 const filterByTags = (tags) => {
     const todos = readTodos();
     const tagArray = tags.split(',');
     const filteredTodos = todos.filter(todo => tagArray.every(tag => todo.tags.includes(tag)));
-    if (filteredTodos > 0) {
+    if (filteredTodos) {
         console.log('Daftar Pekerjaan');
         filteredTodos.forEach(todo => {
             console.log(`${todo.id}. [${todo.completed ? 'x' : ' '}] ${todo.content}`);
@@ -167,6 +174,10 @@ node todo.js filter:<tag_name>
 
 // Todo App
 const todoApp = () => {
+    if (args.length === 0) {
+        showHelp();
+        return;
+    }
     switch (true) {
         case args[0] == 'list':
             listAllTodos();
