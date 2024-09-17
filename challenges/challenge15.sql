@@ -59,32 +59,34 @@ WHERE nilai IN ('D','E');
 
 -- table mahasiswa
 -- add column tgllahir
+CREATE TABLE mahasiswaa (
+    nim VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    tgllahir VARCHAR(50) NOT NULL,
+    alamat VARCHAR(255),
+    id_jurusan VARCHAR(10),
+    FOREIGN KEY (id_jurusan) REFERENCES jurusan(id_jurusan)
+);
 
--- CREATE TABLE mahasiswaa (
---     nim VARCHAR(10) PRIMARY KEY,
---     nama VARCHAR(100) NOT NULL,
---     tgllahir VARCHAR(50) NOT NULL,
---     alamat VARCHAR(255),
---     id_jurusan VARCHAR(10),
---     FOREIGN KEY (id_jurusan) REFERENCES jurusan(id_jurusan)
--- );
--- INSERT INTO mahasiswaa (nim, nama, tgllahir, alamat, id_jurusan) VALUES 
--- ('1811001', 'Andi Wijaya', '2005-07-25', 'Jl. Merdeka No. 10', '11'),
--- ('1812001', 'Budi Santoso', '2006-05-24', 'Jl. Diponegoro No. 15', '12'),
--- ('1811002', 'Citra Puspita', '2005-02-20', 'Jl. Kartini No. 12', '11'),
--- ('1913001', 'Dewi Anggraini', '2007-01-20', 'Jl. Soekarno Hatta No. 8', '13'),
--- ('1912002', 'Eko Saputra', '2005-10-20', 'Jl. Gatot Subroto No. 22', '12');
+INSERT INTO mahasiswaa (nim, nama, tgllahir, alamat, id_jurusan) VALUES 
+('1811001', 'Andi Wijaya', '2005-07-25', 'Jl. Merdeka No. 10', '11'),
+('1812001', 'Budi Santoso', '2006-05-24', 'Jl. Diponegoro No. 15', '12'),
+('1811002', 'Citra Puspita', '2005-02-20', 'Jl. Kartini No. 12', '11'),
+('1913001', 'Dewi Anggraini', '2007-01-20', 'Jl. Soekarno Hatta No. 8', '13'),
+('1912002', 'Eko Saputra', '2005-10-20', 'Jl. Gatot Subroto No. 22', '12');
+
+DROP TABLE mahasiswa;
+
+ALTER TABLE mahasiswaa RENAME TO mahasiswa;
 
 -- table matakuliah
 -- update id_matakuliah = 'KM03' set nama = 'Data Mining'
-
--- UPDATE matakuliah
--- SET nama = 'Data Mining''
--- WHERE id_matakuliah = 'KM03';
+UPDATE matakuliah
+SET nama = 'Data Mining'
+WHERE id_matakuliah = 'KM03';
 
 -- table nilai_mahasiswa
 -- update id_nilai = 6 set nilai = 'D'
-
--- UPDATE nilai_mahasiswa
--- SET nilai = 'D'
--- WHERE id_nilai = 6;
+UPDATE nilai_mahasiswa
+SET nilai = 'D'
+WHERE id_nilai = 6;
