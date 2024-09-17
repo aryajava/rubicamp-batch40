@@ -1,5 +1,4 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
+-- table 'jurusan'
 CREATE TABLE jurusan (
     id_jurusan INTEGER PRIMARY KEY AUTOINCREMENT,
     namajurusan TEXT NOT NULL
@@ -7,6 +6,8 @@ CREATE TABLE jurusan (
 INSERT INTO jurusan VALUES(1,'Teknik Informatika');
 INSERT INTO jurusan VALUES(2,'Sistem Informasi');
 INSERT INTO jurusan VALUES(3,'Teknik Elektro');
+
+-- table 'mahasiswa'
 CREATE TABLE mahasiswa (
     nim INTEGER PRIMARY KEY,
     nama TEXT NOT NULL,
@@ -19,6 +20,8 @@ INSERT INTO mahasiswa VALUES(102,'Budi Santoso','Jl. Diponegoro No. 15',2);
 INSERT INTO mahasiswa VALUES(103,'Citra Puspita','Jl. Kartini No. 12',1);
 INSERT INTO mahasiswa VALUES(104,'Dewi Anggraini','Jl. Soekarno Hatta No. 8',3);
 INSERT INTO mahasiswa VALUES(105,'Eko Saputra','Jl. Gatot Subroto No. 22',2);
+
+-- table 'dosen'
 CREATE TABLE dosen (
     id_dosen INTEGER PRIMARY KEY AUTOINCREMENT,
     nama TEXT NOT NULL
@@ -26,6 +29,8 @@ CREATE TABLE dosen (
 INSERT INTO dosen VALUES(1,'Dr. Susilo Prabowo');
 INSERT INTO dosen VALUES(2,'Prof. Arief Ramadhan');
 INSERT INTO dosen VALUES(3,'Dr. Siti Hidayati');
+
+-- table 'matakuliah'
 CREATE TABLE matakuliah (
     id_matakuliah INTEGER PRIMARY KEY AUTOINCREMENT,
     nama TEXT NOT NULL,
@@ -36,6 +41,8 @@ INSERT INTO matakuliah VALUES(2,'Basis Data',4);
 INSERT INTO matakuliah VALUES(3,'Jaringan Komputer',3);
 INSERT INTO matakuliah VALUES(4,'Sistem Operasi',3);
 INSERT INTO matakuliah VALUES(5,'Kalkulus',2);
+
+-- table 'nilai_mahasiswa'
 CREATE TABLE nilai_mahasiswa (
     id_nilai INTEGER PRIMARY KEY AUTOINCREMENT,
     nim INTEGER,
@@ -52,9 +59,3 @@ INSERT INTO nilai_mahasiswa VALUES(3,102,3,2,'C');
 INSERT INTO nilai_mahasiswa VALUES(4,103,4,3,'A');
 INSERT INTO nilai_mahasiswa VALUES(5,104,5,1,'B');
 INSERT INTO nilai_mahasiswa VALUES(6,105,1,1,'C');
-DELETE FROM sqlite_sequence;
-INSERT INTO sqlite_sequence VALUES('jurusan',3);
-INSERT INTO sqlite_sequence VALUES('dosen',3);
-INSERT INTO sqlite_sequence VALUES('matakuliah',5);
-INSERT INTO sqlite_sequence VALUES('nilai_mahasiswa',6);
-COMMIT;
