@@ -22,13 +22,13 @@ INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
 INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
 HAVING sum(mk.sks) > 10;
 
--- 5. tampilkan mahasiswa yang mengambil matakuliah 'Data Mining'
-SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.namajurusan
+-- 5. tampilkan mahasiswa yang mengambil matakuliah 'data mining'
+SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.namajurusan, mk.nama
 FROM nilai_mahasiswa as nm
 INNER JOIN mahasiswa as m ON nm.nim=m.nim
 INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
 INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
-WHERE mk.nama LIKE 'Data Mining';
+WHERE mk.nama LIKE '%data mining%';
 
 -- 6. tampilkan jumlah mahasiswa untuk setiap dosen
 SELECT d.*, count(DISTINCT m.nim) AS jumlah_mahasiswa
@@ -105,7 +105,7 @@ WHERE nim = '1912002';
 -- table matakuliah
 -- update id_matakuliah = 'KM03' set nama = 'Data Mining'
 UPDATE matakuliah
-SET nama = 'Data Mining'
+SET nama = 'Pemrograman Data Mining'
 WHERE id_matakuliah = 'KM03';
 
 -- table nilai_mahasiswa
