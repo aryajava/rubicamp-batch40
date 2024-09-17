@@ -1,77 +1,90 @@
--- tampilkan seluruh data mahasiswa beserta jurusannya
--- SELECT nim, nama_mahasiswa, alamat_mahasiswa, jurusan.nama_jurusan, umur
--- FROM mahasiswa
--- JOIN jurusan USING (jurusan_id);
-
-SELECT m.*, j.nama_jurusan
+-- 1. tampilkan seluruh data mahasiswa beserta jurusannya
+SELECT m.*, j.namajurusan
 FROM mahasiswa as m
-JOIN jurusan as j USING (jurusan_id);
+INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan;
 
--- tampilkan mahasiswa yang memiliki umur dibawah 20 tahun
--- SELECT nim, nama_mahasiswa, alamat_mahasiswa, jurusan.nama_jurusan, umur
--- FROM mahasiswa
--- JOIN jurusan USING (jurusan_id)
--- WHERE umur < 20 ;
-
-SELECT m.* 
-FROM mahasiswa as m
-WHERE (strftime('%Y', 'now') - strftime('%Y', tgl_lahir)) - (strftime('%m-%d', 'now') < strftime('%m-%d', tgl_lahir)) < 20 ;
-
--- tampilkan mahasiswa yang memiliki nilai B keatas
--- SELECT nim, nama_mahasiswa, matakuliah.nama_matakuliah, nilai
--- FROM nilai_mahasiswa
--- INNER JOIN mahasiswa USING (nim)
--- INNER JOIN matakuliah USING (matakuliah_id)
--- WHERE 'B' > nilai;
-
+-- 2. tampilkan mahasiswa yang memiliki umur dibawah 20 tahun
 SELECT m.*
-FROM nilai_mahasiswa
-INNER JOIN mahasiswa as m USING (nim)
+FROM mahasiswa as m
+WHERE (strftime('%Y', 'now') - strftime('%Y', tgllahir)) - (strftime('%m-%d', 'now') < strftime('%m-%d', tgllahir)) < 20 ;
+
+-- 3. tampilkan mahasiswa yang memiliki nilai B keatas
+SELECT m.*
+FROM nilai_mahasiswa as nm
+INNER JOIN mahasiswa as m ON nm.nim=m.nim
 WHERE 'B' > nilai;
 
--- tampilkan mahasiswa yang memiliki jumlah sks lebih dari 10
-SELECT m.nim, m.nama_mahasiswa, j.nama_jurusan, sum(mk.sks) AS total_sks
-FROM nilai_mahasiswa
-INNER JOIN mahasiswa as m USING (nim)
-INNER JOIN matakuliah as mk USING (matakuliah_id)
-INNER JOIN jurusan as j USING(jurusan_id)
-GROUP BY m.nim, m.nama_mahasiswa
+-- 4. tampilkan mahasiswa yang memiliki jumlah sks lebih dari 10
+SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.namajurusan, sum(mk.sks) AS total_sks
+FROM nilai_mahasiswa as nm
+INNER JOIN mahasiswa as m ON nm.nim=m.nim
+INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
+INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
 HAVING sum(mk.sks) > 10;
 
--- tampilkan mahasiswa yang mengambil matakuliah 'data mining'
-SELECT m.nim, m.nama_mahasiswa, j.nama_jurusan, mk.nama_matakuliah
-FROM nilai_mahasiswa
-INNER JOIN mahasiswa as m USING (nim)
-INNER JOIN matakuliah as mk USING (matakuliah_id)
-INNER JOIN jurusan as j USING(jurusan_id)
-WHERE mk.nama_matakuliah = 'data mining';
+-- 5. tampilkan mahasiswa yang mengambil matakuliah 'Data Mining'
+SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.namajurusan
+FROM nilai_mahasiswa as nm
+INNER JOIN mahasiswa as m ON nm.nim=m.nim
+INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
+INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
+WHERE mk.nama = 'Data Mining';
 
--- tampilkan jumlah mahasiswa untuk setiap dosennya
-SELECT d.dosen_id, d.nama_dosen, count(DISTINCT m.nim) AS jumlah_mahasiswa
-FROM nilai_mahasiswa
-INNER JOIN mahasiswa as m USING (nim)
-INNER JOIN dosen as d USING (dosen_id)
-GROUP BY d.dosen_id, d.nama_dosen;
+-- 6. tampilkan jumlah mahasiswa untuk setiap dosen
+SELECT d.*, count(DISTINCT m.nim) AS jumlah_mahasiswa
+FROM nilai_mahasiswa as nm
+INNER JOIN mahasiswa as m ON nm.nim=m.nim
+INNER JOIN dosen as d ON nm.id_dosen=d.id_dosen
+GROUP BY d.id_dosen;
 
--- urutkan mahasiswa berdasarkan umurnya
-SELECT nim, nama_mahasiswa, alamat_mahasiswa, j.nama_jurusan, (strftime('%Y', 'now') - strftime('%Y', tgl_lahir)) - (strftime('%m-%d', 'now') < strftime('%m-%d', tgl_lahir)) AS umur
-FROM mahasiswa
-JOIN jurusan j USING (jurusan_id)
+-- 7. urutkan mahasiswa berdasarkan umurnya
+SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.namajurusan, (strftime('%Y', 'now') - strftime('%Y', tgllahir)) - (strftime('%m-%d', 'now') < strftime('%m-%d', tgllahir)) AS umur
+FROM mahasiswa as m
+JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
 ORDER BY umur;
 
--- menampilkan matakuliah dengan nilai D dan E, serta menampilkan data mahasiswa jurusan dan dosen
--- SELECT *
--- FROM nilai_mahasiswa
--- INNER JOIN mahasiswa USING (nim)
--- INNER JOIN matakuliah USING (matakuliah_id)
--- INNER JOIN jurusan USING(jurusan_id)
--- INNER JOIN dosen USING (dosen_id)
--- WHERE nilai IN ('D','E');
-
-SELECT m.*, j.nama_jurusan, d.nama_dosen, mk.nama_matakuliah
-FROM nilai_mahasiswa
-INNER JOIN mahasiswa as m USING (nim)
-INNER JOIN matakuliah as mk USING (matakuliah_id)
-INNER JOIN jurusan as j USING(jurusan_id)
-INNER JOIN dosen as d USING (dosen_id)      
+-- 8. tampilkan kontrak matakuliah yang harus diulang(nilai D dan E),
+-- serta tampilkan data mahasiswa jurusan dan dosen secara lengkap,
+-- gunakan mode JOIN dan WHERE clause (solusi dari 2 syntax SQL)
+SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.id_jurusan, j.namajurusan, d.id_dosen, d.nama, mk.id_matakuliah, mk.nama
+FROM nilai_mahasiswa as nm
+INNER JOIN mahasiswa as m ON nm.nim=m.nim
+INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
+INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
+INNER JOIN dosen as d ON nm.id_dosen=d.id_dosen     
 WHERE nilai IN ('D','E');
+
+
+-- Beberapa table yang diubah:
+
+-- table mahasiswa
+-- add column tgllahir
+
+-- CREATE TABLE mahasiswaa (
+--     nim VARCHAR(10) PRIMARY KEY,
+--     nama VARCHAR(100) NOT NULL,
+--     tgllahir VARCHAR(50) NOT NULL,
+--     alamat VARCHAR(255),
+--     id_jurusan VARCHAR(10),
+--     FOREIGN KEY (id_jurusan) REFERENCES jurusan(id_jurusan)
+-- );
+-- INSERT INTO mahasiswaa (nim, nama, tgllahir, alamat, id_jurusan) VALUES 
+-- ('1811001', 'Andi Wijaya', '2005-07-25', 'Jl. Merdeka No. 10', '11'),
+-- ('1812001', 'Budi Santoso', '2006-05-24', 'Jl. Diponegoro No. 15', '12'),
+-- ('1811002', 'Citra Puspita', '2005-02-20', 'Jl. Kartini No. 12', '11'),
+-- ('1913001', 'Dewi Anggraini', '2007-01-20', 'Jl. Soekarno Hatta No. 8', '13'),
+-- ('1912002', 'Eko Saputra', '2005-10-20', 'Jl. Gatot Subroto No. 22', '12');
+
+-- table matakuliah
+-- update id_matakuliah = 'KM03' set nama = 'Data Mining'
+
+-- UPDATE matakuliah
+-- SET nama = 'Data Mining''
+-- WHERE id_matakuliah = 'KM03';
+
+-- table nilai_mahasiswa
+-- update id_nilai = 6 set nilai = 'D'
+
+-- UPDATE nilai_mahasiswa
+-- SET nilai = 'D'
+-- WHERE id_nilai = 6;
