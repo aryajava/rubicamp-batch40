@@ -12,7 +12,7 @@ WHERE (strftime('%Y', 'now') - strftime('%Y', tgllahir)) - (strftime('%m-%d', 'n
 SELECT m.*, nm.nilai 
 FROM nilai_mahasiswa as nm 
 INNER JOIN mahasiswa as m ON nm.nim = m.nim 
-WHERE nm.nilai IN ('A', 'A-', 'B+');
+WHERE nm.nilai <= 'B';
 
 -- 4. tampilkan mahasiswa yang memiliki jumlah sks lebih dari 10
 SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.namajurusan, sum(mk.sks) AS total_sks
@@ -28,8 +28,7 @@ FROM nilai_mahasiswa as nm
 INNER JOIN mahasiswa as m ON nm.nim=m.nim
 INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
 INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
-WHERE mk.nama = 'Data Mining' OR mk.nama = 'data mining';
-
+WHERE mk.nama LIKE 'Data Mining';
 
 -- 6. tampilkan jumlah mahasiswa untuk setiap dosen
 SELECT d.*, count(DISTINCT m.nim) AS jumlah_mahasiswa
