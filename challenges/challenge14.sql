@@ -1,68 +1,60 @@
--- CREATE DATABASE university
-
--- table jurusan
--- jurusan_id (PK)     nama_jurusan
--- 1                   teknik informatika
--- 2                   sistem informasi
-CREATE TABLE "jurusan" (
-	"jurusan_id"	INTEGER NOT NULL,
-	"nama_jurusan"	TEXT NOT NULL,
-	PRIMARY KEY("jurusan_id")
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE jurusan (
+    id_jurusan INTEGER PRIMARY KEY AUTOINCREMENT,
+    namajurusan TEXT NOT NULL
 );
-INSERT INTO jurusan (jurusan_id,nama_jurusan) VALUES (1,'teknik informatika'), (2,'sistem informasi');
-
--- table matakuliah
--- matakuliah_id (PK)  nama_matakuliah        sks
--- m1                  kalkulus               3
--- m2                  matrix                 2
-CREATE TABLE "matakuliah" (
-	"matakuliah_id"	TEXT NOT NULL,
-	"nama_matakuliah"	TEXT NOT NULL,
-	"sks"	INTEGER NOT NULL,
-	PRIMARY KEY("matakuliah_id")
+INSERT INTO jurusan VALUES(1,'Teknik Informatika');
+INSERT INTO jurusan VALUES(2,'Sistem Informasi');
+INSERT INTO jurusan VALUES(3,'Teknik Elektro');
+CREATE TABLE mahasiswa (
+    nim INTEGER PRIMARY KEY,
+    nama TEXT NOT NULL,
+    alamat TEXT,
+    id_jurusan INTEGER,
+    FOREIGN KEY (id_jurusan) REFERENCES jurusan(id_jurusan)
 );
-INSERT INTO matakuliah (matakuliah_id,nama_matakuliah,sks) VALUES ('m1','kalkulus',3), ('m2','matrix',2);
-
--- table dosen
--- dosen_id (PK)    nama_dosen
--- 11               Jaya
--- 12               Marja
-CREATE TABLE "dosen" (
-	"dosen_id"	INTEGER NOT NULL,
-	"nama_dosen"	TEXT NOT NULL,
-	PRIMARY KEY("dosen_id")
+INSERT INTO mahasiswa VALUES(101,'Andi Wijaya','Jl. Merdeka No. 10',1);
+INSERT INTO mahasiswa VALUES(102,'Budi Santoso','Jl. Diponegoro No. 15',2);
+INSERT INTO mahasiswa VALUES(103,'Citra Puspita','Jl. Kartini No. 12',1);
+INSERT INTO mahasiswa VALUES(104,'Dewi Anggraini','Jl. Soekarno Hatta No. 8',3);
+INSERT INTO mahasiswa VALUES(105,'Eko Saputra','Jl. Gatot Subroto No. 22',2);
+CREATE TABLE dosen (
+    id_dosen INTEGER PRIMARY KEY AUTOINCREMENT,
+    nama TEXT NOT NULL
 );
-INSERT INTO dosen (dosen_id,nama_dosen) VALUES (11,'jaya'), (12,'marja');
-
--- table mahasiswa
--- nim (PK)    nama_mahasiswa      alamat_mahasiswa        jurusan_id (FK)
--- 101         Java                jakarta                 1
--- 201         Arya                bandung                 2
-CREATE TABLE "mahasiswa" (
-	"nim"	INTEGER NOT NULL,
-	"nama_mahasiswa"	TEXT NOT NULL,
-	"alamat_mahasiswa"	TEXT NOT NULL,
-	"jurusan_id"	INTEGER NOT NULL,
-	FOREIGN KEY("jurusan_id") REFERENCES "jurusan"("jurusan_id"),
-	PRIMARY KEY("nim")
+INSERT INTO dosen VALUES(1,'Dr. Susilo Prabowo');
+INSERT INTO dosen VALUES(2,'Prof. Arief Ramadhan');
+INSERT INTO dosen VALUES(3,'Dr. Siti Hidayati');
+CREATE TABLE matakuliah (
+    id_matakuliah INTEGER PRIMARY KEY AUTOINCREMENT,
+    nama TEXT NOT NULL,
+    sks INTEGER NOT NULL
 );
-INSERT INTO mahasiswa (nim,nama_mahasiswa,alamat_mahasiswa,jurusan_id) VALUES (101,'java','jakarta',1), (201,'arya','bandung',2);
-
--- table nilai_mahasiswa
--- nilai_id (PK)     nim (FK)   matakuliah_id(FK)    dosen_id (FK)  nilai
--- 1                 101        "m1"                 12             85
--- 2                 201        "m2"                 11             80
-CREATE TABLE "nilai_mahasiswa" (
-    "nilai_id"    INTEGER NOT NULL,
-    "nim" INTEGER NOT NULL,
-    "matakuliah_id"   TEXT NOT NULL,
-    "dosen_id"   INTEGER NOT NULL,
-    "nilai" INTEGER NOT NULL,
-    FOREIGN KEY("nim") REFERENCES "mahasiswa"("nim"),
-    FOREIGN KEY("matakuliah_id") REFERENCES "matakuliah"("matakuliah_id"),
-    FOREIGN KEY("dosen_id") REFERENCES "dosen"("dosen_id"),
-    PRIMARY KEY ("nilai_id" AUTOINCREMENT)
+INSERT INTO matakuliah VALUES(1,'Pemrograman Dasar',3);
+INSERT INTO matakuliah VALUES(2,'Basis Data',4);
+INSERT INTO matakuliah VALUES(3,'Jaringan Komputer',3);
+INSERT INTO matakuliah VALUES(4,'Sistem Operasi',3);
+INSERT INTO matakuliah VALUES(5,'Kalkulus',2);
+CREATE TABLE nilai_mahasiswa (
+    id_nilai INTEGER PRIMARY KEY AUTOINCREMENT,
+    nim INTEGER,
+    id_matakuliah INTEGER,
+    id_dosen INTEGER,
+    nilai TEXT CHECK( nilai IN ('A', 'B', 'C', 'D', 'E') ),
+    FOREIGN KEY (nim) REFERENCES mahasiswa(nim),
+    FOREIGN KEY (id_matakuliah) REFERENCES matakuliah(id_matakuliah),
+    FOREIGN KEY (id_dosen) REFERENCES dosen(id_dosen)
 );
-INSERT INTO nilai_mahasiswa (nim,matakuliah_id,dosen_id,nilai) VALUES (101,"m1",12,85), (201,"m2",11,80);
-
-
+INSERT INTO nilai_mahasiswa VALUES(1,101,1,1,'A');
+INSERT INTO nilai_mahasiswa VALUES(2,101,2,2,'B');
+INSERT INTO nilai_mahasiswa VALUES(3,102,3,2,'C');
+INSERT INTO nilai_mahasiswa VALUES(4,103,4,3,'A');
+INSERT INTO nilai_mahasiswa VALUES(5,104,5,1,'B');
+INSERT INTO nilai_mahasiswa VALUES(6,105,1,1,'C');
+DELETE FROM sqlite_sequence;
+INSERT INTO sqlite_sequence VALUES('jurusan',3);
+INSERT INTO sqlite_sequence VALUES('dosen',3);
+INSERT INTO sqlite_sequence VALUES('matakuliah',5);
+INSERT INTO sqlite_sequence VALUES('nilai_mahasiswa',6);
+COMMIT;
