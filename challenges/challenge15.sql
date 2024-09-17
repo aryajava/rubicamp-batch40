@@ -1,18 +1,18 @@
 -- 1. tampilkan seluruh data mahasiswa beserta jurusannya
-SELECT m.*, j.namajurusan
-FROM mahasiswa as m
+SELECT m.*, j.namajurusan 
+FROM mahasiswa as m 
 INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan;
 
 -- 2. tampilkan mahasiswa yang memiliki umur dibawah 20 tahun
-SELECT m.*
-FROM mahasiswa as m
+SELECT m.* 
+FROM mahasiswa as m 
 WHERE (strftime('%Y', 'now') - strftime('%Y', tgllahir)) - (strftime('%m-%d', 'now') < strftime('%m-%d', tgllahir)) < 20 ;
 
 -- 3. tampilkan mahasiswa yang memiliki nilai B keatas
-SELECT m.*
-FROM nilai_mahasiswa as nm
-INNER JOIN mahasiswa as m ON nm.nim=m.nim
-WHERE 'B' > nilai;
+SELECT m.*, nm.nilai 
+FROM nilai_mahasiswa as nm 
+INNER JOIN mahasiswa as m ON nm.nim = m.nim 
+WHERE nm.nilai IN ('A', 'A-', 'B+');
 
 -- 4. tampilkan mahasiswa yang memiliki jumlah sks lebih dari 10
 SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.namajurusan, sum(mk.sks) AS total_sks
@@ -28,7 +28,8 @@ FROM nilai_mahasiswa as nm
 INNER JOIN mahasiswa as m ON nm.nim=m.nim
 INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
 INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
-WHERE mk.nama = 'Data Mining';
+WHERE mk.nama = 'Data Mining' OR mk.nama = 'data mining';
+
 
 -- 6. tampilkan jumlah mahasiswa untuk setiap dosen
 SELECT d.*, count(DISTINCT m.nim) AS jumlah_mahasiswa
@@ -46,38 +47,61 @@ ORDER BY umur;
 -- 8. tampilkan kontrak matakuliah yang harus diulang(nilai D dan E),
 -- serta tampilkan data mahasiswa jurusan dan dosen secara lengkap,
 -- gunakan mode JOIN dan WHERE clause (solusi dari 2 syntax SQL)
-SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.id_jurusan, j.namajurusan, d.id_dosen, d.nama, mk.id_matakuliah, mk.nama
-FROM nilai_mahasiswa as nm
-INNER JOIN mahasiswa as m ON nm.nim=m.nim
-INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah
-INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan
-INNER JOIN dosen as d ON nm.id_dosen=d.id_dosen     
+SELECT m.nim, m.nama, m.tgllahir, m.alamat, j.id_jurusan, j.namajurusan, d.id_dosen, d.nama, mk.id_matakuliah, mk.nama, nm.nilai
+FROM nilai_mahasiswa as nm 
+INNER JOIN mahasiswa as m ON nm.nim=m.nim 
+INNER JOIN matakuliah as mk ON nm.id_matakuliah=mk.id_matakuliah 
+INNER JOIN jurusan as j ON m.id_jurusan=j.id_jurusan 
+INNER JOIN dosen as d ON nm.id_dosen=d.id_dosen 
 WHERE nilai IN ('D','E');
+
+SELECT 
+    m.nim, 
+    m.nama, 
+    m.tgllahir, 
+    m.alamat, 
+    j.id_jurusan, 
+    j.namajurusan, 
+    d.id_dosen, 
+    d.nama AS nama_dosen, 
+    mk.id_matakuliah, 
+    mk.nama AS nama_matakuliah, 
+    nm.nilai
+FROM nilai_mahasiswa AS nm, mahasiswa AS m, jurusan AS j, dosen AS d, matakuliah AS mk
+WHERE 
+    nm.nim = m.nim
+    AND m.id_jurusan = j.id_jurusan
+    AND nm.id_dosen = d.id_dosen
+    AND nm.id_matakuliah = mk.id_matakuliah
+    AND nm.nilai IN ('D', 'E');
 
 
 -- Beberapa table yang diubah:
 
 -- table mahasiswa
 -- add column tgllahir
-CREATE TABLE mahasiswaa (
-    nim VARCHAR(10) PRIMARY KEY,
-    nama VARCHAR(100) NOT NULL,
-    tgllahir VARCHAR(50) NOT NULL,
-    alamat VARCHAR(255),
-    id_jurusan VARCHAR(10),
-    FOREIGN KEY (id_jurusan) REFERENCES jurusan(id_jurusan)
-);
+ALTER TABLE mahasiswa
+ADD COLUMN tgllahir DATE;
 
-INSERT INTO mahasiswaa (nim, nama, tgllahir, alamat, id_jurusan) VALUES 
-('1811001', 'Andi Wijaya', '2005-07-25', 'Jl. Merdeka No. 10', '11'),
-('1812001', 'Budi Santoso', '2006-05-24', 'Jl. Diponegoro No. 15', '12'),
-('1811002', 'Citra Puspita', '2005-02-20', 'Jl. Kartini No. 12', '11'),
-('1913001', 'Dewi Anggraini', '2007-01-20', 'Jl. Soekarno Hatta No. 8', '13'),
-('1912002', 'Eko Saputra', '2005-10-20', 'Jl. Gatot Subroto No. 22', '12');
+UPDATE mahasiswa
+SET tgllahir = '2002-07-25'
+WHERE nim = '1811001';
 
-DROP TABLE mahasiswa;
+UPDATE mahasiswa
+SET tgllahir = '2003-05-24'
+WHERE nim = '1812001';
 
-ALTER TABLE mahasiswaa RENAME TO mahasiswa;
+UPDATE mahasiswa
+SET tgllahir = '2004-02-20'
+WHERE nim = '1811002';
+
+UPDATE mahasiswa
+SET tgllahir = '2004-01-20'
+WHERE nim = '1913001';
+
+UPDATE mahasiswa
+SET tgllahir = '2005-10-20'
+WHERE nim = '1912002';
 
 -- table matakuliah
 -- update id_matakuliah = 'KM03' set nama = 'Data Mining'
