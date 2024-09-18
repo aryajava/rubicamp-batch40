@@ -1,5 +1,10 @@
-// npm install uuid
-import { v4 as uuidv4 } from "uuid";
+const genUUID = () => {
+    return `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, c => {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+};
 
 class Tyre {
     constructor(brand, size) {
@@ -12,15 +17,15 @@ class Car {
     constructor(model, year, seats, doors, warranty) {
         this.model = model;
         this.year = year;
-        this.sn = uuidv4();
-        this.tyres = [];
+        this.sn = genUUID();
+        this.tyre = null;
         this.seats = seats;
         this.doors = doors;
         this.warranty = warranty;
     }
 
     addTyre(tyre) {
-        this.tyres.push(tyre);
+        this.tyre = tyre;
     }
 
     getDetails() {
@@ -28,7 +33,7 @@ class Car {
             model: this.model,
             sn: this.sn,
             year: this.year,
-            tyres: `${this.tyres[0].brand} ${this.tyres[0].size}`,
+            tyre: `${this.tyre.brand} ${this.tyre.size}`,
             seats: this.seats,
             doors: this.doors,
             warranty: `${this.warranty} year`,
@@ -40,60 +45,34 @@ class Car {
     }
 }
 
+class Agya extends Car {
+    constructor(year) {
+        super('Agya', year, 5, 5, 1);
+        this.addTyre(new Tyre('Dunlop', '15 inch'));
+    }
+}
+
+class Rush extends Car {
+    constructor(year) {
+        super('Rush', year, 5, 5, 3);
+        this.addTyre(new Tyre('Bridgestone', '17 inch'));
+    }
+}
+
 class CarFactory {
     constructor() {
         this.cars = [];
     }
 
+    static getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min; // Static method untuk menentukan jumlah random produksi
+    }
+
     produce(year) {
-        let agyaCount, rushCount;
-        if (year === 2020) {
-            agyaCount = 4;
-            rushCount = 1;
-        } else if (year === 2022) {
-            agyaCount = 3;
-            rushCount = 4;
-        } else {
-            console.log("Masukan tahun yang sesuai");
-            process.exit();
-        }
-
-        const models = [
-            { name: "Agya", doors: 5, seats: 5, tyreBrand: "dunlop", tyreSize: "15 inch", warranty: 1 },
-            {
-                name: "Rush",
-                doors: 5,
-                seats: 5,
-                tyreBrand: "Bridgestone",
-                tyreSize: "17 inch",
-                warranty: 3,
-            },
-        ];
-
-        // Produksi Agya
-        for (let i = 0; i < agyaCount; i++) {
-            const car = new Car(
-                models[0].name,
-                year,
-                models[0].seats,
-                models[0].doors,
-                models[0].warranty
-            );
-            car.addTyre(new Tyre(models[0].tyreBrand, models[0].tyreSize));
-            this.cars.push(car);
-        }
-
-        // Produksi Rush
-        for (let i = 0; i < rushCount; i++) {
-            const car = new Car(
-                models[1].name,
-                year,
-                models[1].seats,
-                models[1].doors,
-                models[1].warranty
-            );
-            car.addTyre(new Tyre(models[1].tyreBrand, models[1].tyreSize));
-            this.cars.push(car);
+        const productionCount = CarFactory.getRandomInt(1, 10);
+        for (let i = 0; i < productionCount; i++) {
+            const agyaOrRush = Math.random() < 0.5 ? new Agya(year) : new Rush(year);
+            this.cars.push(agyaOrRush);
         }
     }
 
@@ -106,7 +85,7 @@ class CarFactory {
             console.log(`sn         : ${details.sn}`);
             console.log(`door       : ${details.doors}`);
             console.log(`seat       : ${details.seats} seater`);
-            console.log(`tyre       : ${details.tyres}`);
+            console.log(`tyre       : ${details.tyre}`);
             console.log(`year       : ${details.year}`);
             console.log(`warranty   : ${details.warranty}`);
             console.log("\n");
@@ -122,7 +101,7 @@ class CarFactory {
             console.log(`sn         : ${details.sn}`);
             console.log(`door       : ${details.doors}`);
             console.log(`seat       : ${details.seats} seater`);
-            console.log(`tyre       : ${details.tyres}`);
+            console.log(`tyre       : ${details.tyre}`);
             console.log(`year       : ${details.year}`);
             console.log(`warranty   : ${details.warranty}`);
 
@@ -137,7 +116,8 @@ class CarFactory {
 }
 
 const toyota = new CarFactory();
-toyota.produce(2020);
 toyota.produce(2022);
+toyota.produce(2024);
+toyota.produce(2024);
 toyota.result();
 toyota.guaranteeSimulation(2025);
