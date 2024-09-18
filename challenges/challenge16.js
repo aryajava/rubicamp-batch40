@@ -65,7 +65,7 @@ class CarFactory {
     }
 
     static getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min; // Static method untuk menentukan jumlah random produksi
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     produce(year) {
