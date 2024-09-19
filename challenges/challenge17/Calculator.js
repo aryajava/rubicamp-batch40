@@ -29,7 +29,7 @@ class Calculator {
         this.x /= value;
         return this;
     }
-    // luas lingkaran
+    // pangkat 2
     square() {
         this.x = Math.pow(this.x, 2);
         return this;
@@ -39,7 +39,7 @@ class Calculator {
         this.x = Math.sqrt(this.x);
         return this;
     }
-    // exponent (pangkat)
+    // exponent (pangkat ?)
     exponent(power) {
         this.x = Math.pow(this.x, power);
         return this;
