@@ -1,56 +1,54 @@
 function spiral(param1) {
-    const matrix = [];
-    let counter = 0;
-    // Buat matrix dengan ukuran param1 x param1
-    for (let i = 0; i < param1; i++) {
-        const row = [];
-        for (let j = 0; j < param1; j++) {
-            row.push(counter++);
-        }
-        matrix.push(row);
+  const matrix = [];
+  let counter = 0;
+  // Buat matrix dengan ukuran param1 x param1
+  for (let i = 0; i < param1; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < param1; j++) {
+      matrix[i][j] = counter++;
     }
-    
-    // Mengurutkan elemen dengan pola spiral
-    let matrixSize = matrix.length*matrix[0].length;
-    let left = 0;
-    let top = 0;
-    let right = matrix[0].length-1;
-    let bottom = matrix.length-1;
-    const result = [];
-    while (result.length < matrixSize){
-        // Atas (kiri ke kanan)
-        for (let i = left; i <= right && result.length < matrixSize; i++) {
-            result.push(matrix[top][i])
-        }
+  }
+  //   console.log(matrix);
 
-        // Kanan (atas ke bawah)
-        top++;
-        for (let i = top; i <= bottom && result.length < matrixSize; i++) {
-            result.push(matrix[i][right])
-        }
-        
-        // Bawah (kanan ke kiri)
-        right--;
-        for (let i = right; i >= left && result.length < matrixSize; i--) {
-            result.push(matrix[bottom][i])
-            
-        }
-        
-        // Kiri (bawah ke atas)
-        bottom--;
-        for (let i = bottom; i >= top && result.length < matrixSize; i--) {
-            result.push(matrix[i][left])
-        }
-        left++;
+  let x = 0;
+  let y = 0;
+  let batasAtas = param1;
+  let batasBawah = 0;
+
+  const result = [];
+
+  while (result.length < param1 * param1) {
+    // ke kanan
+    for (; x < batasAtas; x++) {
+      result.push(matrix[y][x]);
     }
-
-    console.log(result);
+    x--;
+    y++;
+    // ke bawah
+    for (; y < batasAtas; y++) {
+      result.push(matrix[y][x]);
+    }
+    y--;
+    x--;
+    // ke kiri
+    for (; x >= batasBawah; x--) {
+      result.push(matrix[y][x]);
+    }
+    x++;
+    y--;
+    // ke atas
+    for (; y > batasBawah; y--) {
+      result.push(matrix[y][x]);
+    }
+    x++;
+    y++;
+    batasAtas--;
+    batasBawah++;
+  }
+  console.log(result);
 }
 
-spiral(5)
-spiral(6)
-spiral(7)
-
-
-
+spiral(5);
+spiral(6);
+spiral(7);
 
