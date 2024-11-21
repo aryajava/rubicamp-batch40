@@ -12,16 +12,16 @@ Proyek ini berisi berbagai latihan dan tugas yang diberikan selama bootcamp. Set
 
 ## Struktur Direktori
 
-- `challenge01.js`: Fungsi untuk menjumlahkan semua argumen yang diberikan.
-- `challenge02.js`: Fungsi untuk menghasilkan deret angka dengan aturan tertentu.
-- `challenge03.js`: Fungsi untuk mengonversi angka menjadi angka Romawi.
-- `challenge04.js`: Fungsi untuk menemukan bilangan prima ke-n.
-- `challenge05.js`: Fungsi untuk memanipulasi string berdasarkan huruf vokal.
-- `challenge06.js`: Fungsi untuk memanipulasi kalimat berdasarkan huruf vokal.
-- `challenge07.js`: Fungsi untuk mengalikan digit angka hingga menjadi satu digit.
-- `challenge08.js`: Fungsi untuk menemukan angka yang sesuai dengan pola tertentu.
-- `challenge09.js`: Fungsi untuk menghasilkan matriks spiral.
-- `challenge10.js`: Fungsi untuk memanipulasi kalimat menggunakan readline.
+- `challenge01.js`: Tugas menjumlahkan semua argumen yang diberikan.
+- `challenge02.js`: Tugas menghasilkan deret angka dengan aturan tertentu.
+- `challenge03.js`: Tugas mengonversi angka menjadi angka Romawi.
+- `challenge04.js`: Tugas menemukan bilangan prima ke-n.
+- `challenge05.js`: Tugas memanipulasi string berdasarkan huruf vokal.
+- `challenge06.js`: Tugas memanipulasi kalimat berdasarkan huruf vokal.
+- `challenge07.js`: Tugas mengalikan digit angka hingga menjadi satu digit.
+- `challenge08.js`: Tugas menemukan angka yang sesuai dengan pola tertentu.
+- `challenge09.js`: Tugas menghasilkan matriks spiral.
+- `challenge10.js`: Tugas memanipulasi kalimat menggunakan readline.
 - `challenge11.js`: Permainan tebak kata menggunakan readline.
 - `challenge12.js`: Permainan tebak kata dengan fitur skip menggunakan readline.
 - `challenge13.js`: Aplikasi todo list dengan berbagai fitur.
