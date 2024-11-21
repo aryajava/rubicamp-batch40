@@ -1,5 +1,5 @@
-import readline from "readline";
 import fs from "fs";
+import readline from "readline";
 
 const data = JSON.parse(fs.readFileSync("./data.json", "utf-8"));
 const lenData = data.length;
@@ -37,4 +37,3 @@ rl.on("line", (answer) => {
 });
 
 tebakKata();
-

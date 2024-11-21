@@ -16,12 +16,12 @@
 // }
 
 function deretKaskus(n) {
-    let arr = []
-    for (let i = 1; i <= n; i++) {
-        let val = i * 3
-        arr.push(val % 5 === 0 && val % 6 === 0 ? "KASKUS" : val % 5 === 0 ? "KAS" : val % 6 === 0 ? "KUS" : val)
-    }
-    return console.log(arr)
+  let arr = [];
+  for (let i = 1; i <= n; i++) {
+    let val = i * 3;
+    arr.push(val % 5 === 0 && val % 6 === 0 ? "KASKUS" : val % 5 === 0 ? "KAS" : val % 6 === 0 ? "KUS" : val);
+  }
+  return console.log(arr);
 }
 
-deretKaskus(10) // [3, 'KUS', 9, 'KUS', 'KAS', 'KUS', 21, 'KUS', 27, 'KASKUS']
+deretKaskus(10); // [3, 'KUS', 9, 'KUS', 'KAS', 'KUS', 21, 'KUS', 27, 'KASKUS']
