@@ -91,6 +91,9 @@
         entries.forEach(entry => {
           // Tambahkan class show ke elemen card jika elemen card berpotongan dengan viewport
           entry.target.classList.toggle('show', entry.isIntersecting);
+          // Jika elemen card berpotongan dengan viewport, maka
+          // Hentikan observe elemen card jika elemen card berpotongan dengan viewport
+          if (entry.isIntersecting) observer.unobserve(entry.target);
         });
       }
     );
@@ -124,10 +127,9 @@
       const data = await response.json();
       // Jika data tidak ditemukan, maka hentikan proses
       if (!data) return;
+      console.log(`Data page ${currentPage}:`, data);
       // Ambil totalPage dari data
       let totalPage = data.pages;
-      // Jika currentPage lebih besar dari totalPage, maka hentikan proses
-      if (currentPage > totalPage) return;
       // Buat card baru untuk setiap phonebook dari data
       // Looping setiap phonebook dari data
       data.phonebooks.forEach(phonebook => {
@@ -146,6 +148,8 @@
       currentPage++;
       // Ambil elemen card terakhir
       const newLastCard = document.querySelector('.card:last-child');
+      // Jika currentPage lebih besar dari totalPage, maka hentikan proses
+      if (currentPage > totalPage) return;
       // Observe elemen card terakhir
       lastCardObserver.observe(newLastCard);
     };
