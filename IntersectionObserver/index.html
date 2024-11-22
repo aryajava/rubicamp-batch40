@@ -14,7 +14,7 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      align-items: flex-start;
+      align-items: center;
     }
 
     .card {
@@ -31,247 +31,127 @@
       transform: translateX(0);
       opacity: 1;
     }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: medium;
+      text-wrap-mode: wrap;
+      text-align: justify;
+    }
   </style>
 </head>
 
 <body>
   <h1>Intersection Observer</h1>
   <h3>Apa itu Intersection Observer?</h3>
-  <p style="font-size: medium;">Merupakan sebuah interface dari
-    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API" style="text-decoration: none; color: blue;">Intersection Observer API</a>
-    yang menyediakan cara asynchronous untuk memantau (<i>observe</i>) perubahan intersection dari elemen <i>target</i> terhadap <i>viewport</i> maupun elemen <i>ancestor</i>.
+  <p>Merupakan sebuah interface dari
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API"
+      style="text-decoration: none; color: blue;">Intersection Observer API</a>
+    yang menyediakan cara asynchronous untuk memantau (<i>observe</i>) perubahan intersection dari elemen <i>target</i>
+    terhadap <i>viewport</i> maupun elemen <i>ancestor</i>.
   </p>
   <h3>Kenapa kita membutuhkan Intersection Observer?</h3>
-  <p style="font-size: medium;">Ketika kita ingin memantau elemen yang masuk atau keluar dari viewport, kita bisa menggunakan Intersection Observer. Dengan menggunakan Intersection Observer, kita bisa membuat efek animasi ketika elemen masuk ke dalam viewport, memuat data ketika elemen masuk ke dalam viewport, dan masih banyak lagi.</p>
+  <p>Ketika kita ingin memantau elemen yang masuk atau keluar dari viewport, kita bisa
+    menggunakan Intersection Observer. Dengan menggunakan Intersection Observer, kita bisa membuat efek animasi ketika
+    elemen masuk ke dalam viewport, memuat data ketika elemen masuk ke dalam viewport, dan masih banyak lagi.</p>
   <h3>Bagaimana cara kerja Intersection Observer?</h3>
-  <p style="font-size: medium;">Intersection Observer bekerja dengan cara memantau elemen target terhadap elemen viewport atau elemen ancestor. Ketika elemen target berpotongan dengan elemen viewport atau elemen ancestor, maka callback yang telah ditentukan akan dipanggil. Callback tersebut akan menerima sebuah array dari objek <i>IntersectionObserverEntry</i> yang berisi informasi tentang elemen target dan elemen viewport atau elemen ancestor.</p>
+  <p>Intersection Observer bekerja dengan cara memantau elemen target terhadap elemen
+    viewport atau elemen ancestor. Ketika elemen target berpotongan dengan elemen viewport atau elemen ancestor, maka
+    callback yang telah ditentukan akan dipanggil. Callback tersebut akan menerima sebuah array dari objek
+    <i>IntersectionObserverEntry</i> yang berisi informasi tentang elemen target dan elemen viewport atau elemen
+    ancestor.
+  </p>
   <h3>Bagaimana cara menggunakan Intersection Observer?</h3>
-  <p style="font-size: medium;">Untuk menggunakan Intersection Observer, kita perlu membuat instance dari IntersectionObserver dengan memberikan dua argumen, yaitu callback dan opsi. Callback akan dipanggil setiap kali elemen target berpotongan dengan elemen viewport atau elemen ancestor. Opsi berisi konfigurasi untuk Intersection Observer, seperti threshold, root, dan rootMargin.</p>
+  <p>Untuk menggunakan Intersection Observer, kita perlu membuat instance dari
+    IntersectionObserver dengan memberikan dua argumen, yaitu callback dan opsi. Callback akan dipanggil setiap kali
+    elemen target berpotongan dengan elemen viewport atau elemen ancestor. Opsi berisi konfigurasi untuk Intersection
+    Observer, seperti threshold, root, dan rootMargin.</p>
   <h3>Contoh kasus:</h3>
-  <p style="font-size: medium;">Pada contoh kasus ini, kita akan membuat efek animasi ketika elemen card masuk ke dalam viewport. Ketika elemen terakhir card masuk ke dalam viewport, maka akan ditambahkan 10 card baru.</p>
-  <h3>Contoh kode:</h3>
-  <pre style="background-color: black;">
-    <code style="color: white;">
-      // Membuat variabel cards yang berisi semua elemen dengan class card
-      const cards = document.querySelectorAll('.card');
+  <p>Pada contoh kasus ini, saya membuat sebuah card yang memuat data dari
+    API ketika elemen terakhir masuk ke dalam viewport, maka aplikasi akan memuat data baru dari API dan menambahkannya
+    ke dalam elemen target.</p>
 
-      // Membuat instance observer dari IntersectionObserver
-      const observer = new IntersectionObserver(
-        entries => {
-          // Callback yang akan dipanggil setiap kali elemen yang dipantau
-          // masuk atau keluar dari viewport.
-          entries.forEach(entry => {
-            // Menambahkan atau menghapus kelas 'show' pada elemen target
-            // berdasarkan apakah elemen tersebut sedang berada di dalam viewport.
-            entry.target.classList.toggle('show', entry.isIntersecting);
-          });
-        }, {
-          // Opsi threshold:
-          // Menentukan seberapa banyak dari elemen target yang harus terlihat.
-          // Jika threshold diatur ke 1
-          // yang berarti callback hanya akan dipanggil ketika 100% dari elemen
-          // berada di dalam viewport.
-          // Jika threshold diatur ke 0.5
-          // yang berarti callback akan dipanggil ketika 50% dari elemen
-          // berada di dalam viewport.
-          // Jika threshold diatur ke 0
-          // yang berarti callback akan dipanggil ketika elemen
-          // berada di dalam viewport.
-          threshold: 1,
-          // Opsi root:
-          // Menentukan elemen yang digunakan sebagai viewport.
-          // Jika tidak diatur, maka viewport akan menjadi browser window.
-          root: document.querySelector('.card-container'),
-          // Opsi rootMargin:
-          // Menentukan margin dari elemen root yang digunakan sebagai viewport.
-          // Ini berguna ketika ingin memperluas atau mempersempit area viewport.
-          // Contoh kasus: Ketika ingin memunculkan elemen tetapi jaringan internet lambat,
-          // maka bisa menambahkan margin pada elemen root sebelum elemen target muncul,
-          // sehingga elemen target akan muncul lebih cepat.
-          rootMargin: '0px 0px 100px 0px'
-        }
-      );
-
-      // Membuat instance observer baru untuk elemen terakhir card
-      const lastCardObserver = new IntersectionObserver(
-        entries => {
-          // Mengambil elemen terakhir dari array entries
-          const lastCard = entries[0];
-          // Jika lastCard tidak terlihat (tidak berpotongan / Intersecting), keluar dari fungsi
-          if (!lastCard.isIntersecting) return;
-          // Jika lastCard terlihat (berpotongan / Intersecting), panggil fungsi untuk menambahkan card baru
-          loadNewCard(lastCard);
-          // Berhenti memantau elemen terakhir card
-          lastCardObserver.unobserve(lastCard.target);
-          // Mulai memantau elemen terakhir card yang baru
-          lastCardObserver.observe(document.querySelector('.card:last-child'));
-        }
-      );
-
-      // Pantau elemen terakhir card
-      lastCardObserver.observe(document.querySelector('.card:last-child'));
-
-      // Melakukan iterasi pada setiap elemen dalam array
-      cards.forEach(card => {
-        // Memantau setiap elemen card menggnakan observer
-        observer.observe(card);
-      });
-
-      // Membuat variabel cardContainer yang berisi elemen dengan class card-container
-      const cardContainer = document.querySelector('.card-container');
-
-      // Fungsi untuk menambahkan card baru
-      function loadNewCard() {
-        // Membuat 10 card baru
-        for (let i = 0; i < 10; i++) {
-          // Membuat elemen card baru
-          const card = document.createElement('div');
-          // Menambahkan teks 'New card' pada card baru
-          card.textContent = 'New card';
-          // Menambahkan class 'card' pada card baru
-          card.classList.add('card');
-          // Memantau card baru
-          observer.observe(card);
-          // Menambahkan card baru pada cardContainer
-          cardContainer.append(card);
-        }
-      }
-    </code>
-  </pre>
   <h3>Hasil:</h3>
   <div class="card-container">
-    <div class="card">This is the first card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is a card</div>
-    <div class="card">This is the last card</div>
   </div>
 
   <script>
-    // Membuat variabel cards yang berisi semua elemen dengan class card
-    const cards = document.querySelectorAll('.card');
-
-    // Membuat instance observer dari IntersectionObserver
-    const observer = new IntersectionObserver(
-      entries => {
-        // Callback yang akan dipanggil setiap kali elemen yang dipantau
-        // masuk atau keluar dari viewport.
-        entries.forEach(entry => {
-          // Menambahkan atau menghapus kelas 'show' pada elemen target
-          // berdasarkan apakah elemen tersebut sedang berada di dalam viewport.
-          entry.target.classList.toggle('show', entry.isIntersecting);
-        });
-      }, {
-        // Opsi-opsi untuk IntersectionObserver.
-        // 1. Opsi threshold:
-        // Menentukan seberapa banyak dari elemen target yang harus terlihat.
-        // Jika threshold diatur ke 1
-        // yang berarti callback hanya akan dipanggil ketika 100% dari elemen
-        // berada di dalam viewport.
-        // Jika threshold diatur ke 0.5
-        // yang berarti callback akan dipanggil ketika 50% dari elemen
-        // berada di dalam viewport.
-        // Jika threshold diatur ke 0
-        // yang berarti callback akan dipanggil ketika elemen
-        // berada di dalam viewport.
-        threshold: 1,
-        // 2. Opsi root:
-        // Menentukan elemen yang digunakan sebagai viewport.
-        // Jika tidak diatur, maka viewport akan menjadi browser window.
-        root: document.querySelector('.card-container'),
-        // 3. Opsi rootMargin:
-        // Menentukan margin dari elemen root yang digunakan sebagai viewport.
-        // Ini berguna ketika ingin memperluas atau mempersempit area viewport.
-        // Contoh kasus: Ketika ingin memunculkan elemen tetapi jaringan internet lambat,
-        // maka bisa menambahkan margin pada elemen root sebelum elemen target muncul,
-        // sehingga elemen target akan muncul lebih cepat.
-        rootMargin: '0px 0px 100px 0px'
-      }
-    );
-
-    // Membuat instance observer baru untuk elemen terakhir card
-    const lastCardObserver = new IntersectionObserver(
-      entries => {
-        // Mengambil elemen terakhir dari array entries
-        const lastCard = entries[0];
-        // Jika lastCard tidak terlihat (tidak berpotongan / Intersecting), keluar dari fungsi
-        if (!lastCard.isIntersecting) return;
-        // Jika lastCard terlihat (berpotongan / Intersecting), panggil fungsi untuk menambahkan card baru
-        loadNewCard(lastCard);
-        // Berhenti memantau elemen terakhir card
-        lastCardObserver.unobserve(lastCard.target);
-        // Mulai memantau elemen terakhir card yang baru
-        lastCardObserver.observe(document.querySelector('.card:last-child'));
-      }
-    );
-
-    // Pantau elemen terakhir card
-    lastCardObserver.observe(document.querySelector('.card:last-child'));
-
-    // Melakukan iterasi pada setiap elemen dalam array 'cards'
-    cards.forEach(card => {
-      // Memantau setiap elemen card menggnakan observer
-      observer.observe(card);
-    });
-
-    // Membuat variabel cardContainer yang berisi elemen dengan class card-container
+    // Use API
+    // Inisiasi variabel currentPage dengan nilai 1
+    let currentPage = 1;
+    // Ambil elemen dari class card-container
     const cardContainer = document.querySelector('.card-container');
 
-    // Fungsi untuk menambahkan card baru
-    function loadNewCard() {
-      // Membuat 10 card baru
-      for (let i = 0; i < 10; i++) {
-        // Membuat elemen card baru
-        const card = document.createElement('div');
-        // Menambahkan teks 'New card' pada card baru
-        card.textContent = 'New card';
-        // Menambahkan class 'card' pada card baru
-        card.classList.add('card');
-        // Memantau card baru
-        observer.observe(card);
-        // Menambahkan card baru pada cardContainer
-        cardContainer.append(card);
+    // Buat instance IntersectionObserver untuk observe elemen card
+    // Digunakan untuk menampilkan efek animasi ketika elemen card masuk ke dalam viewport
+    const observer = new IntersectionObserver(
+      // Callback function untuk memanipulasi elemen card
+      entries => {
+        // Looping setiap entry dari elemen card
+        entries.forEach(entry => {
+          // Tambahkan class show ke elemen card jika elemen card berpotongan dengan viewport
+          entry.target.classList.toggle('show', entry.isIntersecting);
+        });
       }
-    }
+    );
+
+    // Buat instance IntersectionObserver untuk observe elemen card terakhir
+    // Digunakan untuk memuat data baru ketika elemen card terakhir masuk ke dalam viewport
+    const lastCardObserver = new IntersectionObserver(
+      // Callback function untuk memuat data baru
+      entries => {
+        // Ambil entry terakhir dari elemen card
+        const lastCard = entries[0];
+        // Jika elemen card terakhir tidak berpotongan dengan viewport, maka hentikan proses
+        if (!lastCard.isIntersecting) return;
+        // Hentikan observe elemen card terakhir
+        lastCardObserver.unobserve(lastCard.target);
+        // Panggil fungsi loadNewCards untuk memuat data baru
+        loadNewCards();
+      }
+    );
+
+    // Panggil fungsi loadNewCards untuk memuat data baru
+    const loadNewCards = async () => {
+      // Fetch data dari API
+      const response = await fetch(`http://localhost:3001/api/phonebooks/?page=${currentPage}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      // Ambil data dari response
+      const data = await response.json();
+      // Jika data tidak ditemukan, maka hentikan proses
+      if (!data) return;
+      // Ambil totalPage dari data
+      let totalPage = data.pages;
+      // Jika currentPage lebih besar dari totalPage, maka hentikan proses
+      if (currentPage > totalPage) return;
+      // Buat card baru untuk setiap phonebook dari data
+      // Looping setiap phonebook dari data
+      data.phonebooks.forEach(phonebook => {
+        // Buat elemen div untuk card
+        const card = document.createElement('div');
+        // Tambahkan text content ke elemen card
+        card.textContent = `${phonebook.name} - ${phonebook.phone}`;
+        // Tambahkan class card ke elemen card
+        card.classList.add('card');
+        // Observe elemen card
+        observer.observe(card);
+        // Tambahkan elemen card ke dalam cardContainer
+        cardContainer.append(card);
+      });
+      // Tambahkan currentPage dengan + 1
+      currentPage++;
+      // Ambil elemen card terakhir
+      const newLastCard = document.querySelector('.card:last-child');
+      // Observe elemen card terakhir
+      lastCardObserver.observe(newLastCard);
+    };
+
+    // Panggil fungsi loadNewCards untuk memuat data dari API
+    loadNewCards();
   </script>
 </body>
 
